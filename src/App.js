@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 const STATUSES = ["Pendiente","En curso","Completado","Atrasado","Cancelado"];
 const PRIORITIES = ["Crítica","Alta","Media","Baja"];
@@ -60,13 +60,6 @@ const DEMO_PROJECTS = [
 ];
 
 // ─── Storage helpers ───────────────────────────────────────────────────────────
-async function loadData() {
-  try {
-    const r = await window.storage.get("pf_projects");
-    if (r?.value) return JSON.parse(r.value);
-  } catch(_) {}
-  return null;
-}
 async function saveData(projects) {
   try { await window.storage.set("pf_projects", JSON.stringify(projects)); } catch(_) {}
 }
@@ -113,7 +106,6 @@ function calcProgress(tasks=[]) {
 export default function App() {
   const [dark, setDark] = useState(false);
   const [projects, setProjects] = useState(null);
-  const [view, setView] = useState("kanban");
   const [activeView, setActiveView] = useState("dashboard");
   const [modal, setModal] = useState(null);
   const [dragging, setDragging] = useState(null);
